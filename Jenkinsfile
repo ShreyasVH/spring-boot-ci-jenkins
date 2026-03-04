@@ -7,15 +7,6 @@ pipeline {
         steps {
           script {
             echo env.BRANCH_NAME
-            sh 'pwd'
-            sh 'echo $PATH'
-              sh 'java -version'
-              sh '''
-                mvn --version
-              '''
-              sh '''
-                  which docker
-              '''
 
             env.VERSION = sh(
               script: 'mvn -q -Dexec.executable=echo -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
@@ -28,6 +19,11 @@ pipeline {
       }
 
       stage("Build image") {
+        when {
+          expression {
+            return env.BRANCH_NAME == 'main'
+          }
+        }
         steps {
           script {
             sh """
@@ -38,6 +34,11 @@ pipeline {
       }
 
       stage("Tag image") {
+        when {
+          expression {
+            return env.BRANCH_NAME == 'main'
+          }
+        }
         steps {
           script {
             sh "docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
@@ -49,6 +50,11 @@ pipeline {
       }
 
       stage("Docker login") {
+        when {
+          expression {
+            return env.BRANCH_NAME == 'main'
+          }
+        }
         steps {
           script {
             withCredentials([usernamePassword(
@@ -65,6 +71,11 @@ pipeline {
       }
 
       stage("Docker push") {
+        when {
+          expression {
+            return env.BRANCH_NAME == 'main'
+          }
+        }
         steps {
           script {
             sh "docker push shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
