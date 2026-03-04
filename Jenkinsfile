@@ -30,7 +30,9 @@ pipeline {
       stage("Build image") {
         steps {
           script {
-            sh 'docker build --build-arg VERSION=${env.VERSION} -t spring-boot-ci-jenkins .'
+            sh '''
+                docker build --build-arg VERSION=${env.VERSION} -t spring-boot-ci-jenkins .
+            '''
           }
         }
       }
