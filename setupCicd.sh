@@ -1,6 +1,6 @@
 DIR=$(pwd)
 
-REPO="spring-boot-unit-test"
+REPO="spring-boot-ci-jenkins"
 HOOK_NAME=web
 #curl -u "$GITHUB_USERNAME:$GITHUB_TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/repos/ShreyasVH/$REPO/hooks
 

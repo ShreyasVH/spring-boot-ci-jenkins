@@ -4,3 +4,9 @@ export PORT=
 
 export DOCKER_USERNAME=
 export DOCKER_PASSWORD=
+
+export GITHUB_USERNAME=
+export GITHUB_TOKEN=
+
+export NGROK_VERSION=
+export JENKINS_PORT=
