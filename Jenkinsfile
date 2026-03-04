@@ -17,6 +17,7 @@ pipeline {
               '''
               sh '''
                 cd $HOME/workspace/myProjects/java/springboot/spring-boot-ci-jenkins
+                eval "$(direnv hook zsh)"
                 echo $DOCKER_USERNAME
               '''
           }
