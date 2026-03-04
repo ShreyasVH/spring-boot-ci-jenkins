@@ -1,0 +1,6 @@
+services:
+  spring-boot-ci-jenkins:
+    build: ./
+    ports:
+      - "9014:9014"
+    container_name: spring-boot-ci-jenkins

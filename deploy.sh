@@ -1,0 +1,1 @@
+docker compose -p ${COMPOSE_PROJECT_NAME} -f docker-compose.yml up -d > server.log 2>&1
