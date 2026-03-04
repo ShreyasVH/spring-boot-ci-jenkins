@@ -47,5 +47,21 @@ pipeline {
           }
         }
       }
+
+      stage("Docker login") {
+        steps {
+          script {
+            withCredentials([usernamePassword(
+              credentialsId: 'docker-creds',
+              usernameVariable: 'DOCKER_USERNAME',
+              passwordVariable: 'DOCKER_PASSWORD'
+            )]) {
+              sh '''
+                echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+              '''
+            }
+          }
+        }
+      }
     }
 }
