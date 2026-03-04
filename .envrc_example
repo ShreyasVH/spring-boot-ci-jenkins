@@ -2,9 +2,6 @@ export COMPOSE_PROJECT_NAME=
 
 export PORT=
 
-export DOCKER_USERNAME=
-export DOCKER_PASSWORD=
-
 export GITHUB_USERNAME=
 export GITHUB_TOKEN=
 
