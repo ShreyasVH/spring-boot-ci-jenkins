@@ -40,7 +40,7 @@ pipeline {
       stage("Tag image") {
         steps {
           script {
-            sh 'docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:${env.VERSION}'
+            sh "docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
             sh 'docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:latest'
 
             sh 'docker images'
