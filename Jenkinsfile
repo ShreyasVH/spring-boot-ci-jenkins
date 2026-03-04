@@ -63,5 +63,14 @@ pipeline {
           }
         }
       }
+
+      stage("Docker push") {
+        steps {
+          script {
+            sh "docker push shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
+            sh 'docker push shreyasvh/spring-boot-ci-jenkins:latest'
+          }
+        }
+      }
     }
 }
