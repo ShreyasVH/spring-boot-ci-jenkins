@@ -1,3 +1,4 @@
+def VERSION = ''
 pipeline {
     agent any
 
@@ -15,11 +16,32 @@ pipeline {
               sh '''
                   which docker
               '''
-              sh '''
-                cd $HOME/workspace/myProjects/java/springboot/spring-boot-ci-jenkins
-                eval "$(direnv hook zsh)"
-                echo $DOCKER_USERNAME
-              '''
+
+            env.VERSION = sh(
+              script: "mvn -q -Dexec.executable=echo -Dexec.args='\\${project.version}' --non-recursive exec:exec",
+              returnStdout: true
+            ).trim()
+
+             echo "VERSION=${env.VERSION}"
+          }
+        }
+      }
+
+      stage("Build image") {
+        steps {
+          script {
+            sh 'docker build -t spring-boot-ci-jenkins .'
+          }
+        }
+      }
+
+      stage("Tag image") {
+        steps {
+          script {
+            sh 'docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:${env.VERSION}'
+            sh 'docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:latest'
+
+            sh 'docker images'
           }
         }
       }
