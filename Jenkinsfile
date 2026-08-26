@@ -26,7 +26,7 @@ pipeline {
       stage("Setup Docker Buildx") {
           when {
               expression {
-                  return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
+                  return env.BRANCH_NAME == 'main'
               }
           }
           steps {
@@ -41,7 +41,7 @@ pipeline {
       stage("Docker login") {
         when {
           expression {
-            return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
+            return env.BRANCH_NAME == 'main'
           }
         }
         steps {
@@ -62,13 +62,12 @@ pipeline {
       stage("Build and Push Multi-Arch Image") {
         when {
           expression {
-              return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
+              return env.BRANCH_NAME == 'main'
             }
           }
           steps {
             sh '''
-               #docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION="${VERSION}" -t "${IMAGE_NAME}:${VERSION}" -t "${IMAGE_NAME}:latest" --push .
-               docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION="${VERSION}" -t "${IMAGE_NAME}:test" --push .
+               docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION="${VERSION}" -t "${IMAGE_NAME}:${VERSION}" -t "${IMAGE_NAME}:latest" --push .
             '''
           }
         }
