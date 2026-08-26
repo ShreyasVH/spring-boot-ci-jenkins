@@ -1,7 +1,11 @@
 def VERSION = ''
-def IMAGE_NAME = 'spring-boot-ci-jenkins'
+
 pipeline {
     agent any
+
+    environment {
+        IMAGE_NAME = 'shreyasvh/spring-boot-docker'
+    }
 
     stages {
       stage("Show Details") {
