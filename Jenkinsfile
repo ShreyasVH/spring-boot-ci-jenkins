@@ -4,7 +4,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'shreyasvh/spring-boot-docker'
+        IMAGE_NAME = 'shreyasvh/spring-boot-ci-jenkins'
     }
 
     stages {
