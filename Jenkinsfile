@@ -1,4 +1,5 @@
 def VERSION = ''
+def IMAGE_NAME = 'spring-boot-ci-jenkins'
 pipeline {
     agent any
 
