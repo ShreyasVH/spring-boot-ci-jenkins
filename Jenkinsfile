@@ -18,41 +18,25 @@ pipeline {
         }
       }
 
-      stage("Build image") {
-        when {
-          expression {
-            return env.BRANCH_NAME == 'main'
+      stage("Setup Docker Buildx") {
+          when {
+              expression {
+                  return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
+              }
           }
-        }
-        steps {
-          script {
-            sh """
-                docker build --build-arg VERSION=${env.VERSION} -t spring-boot-ci-jenkins .
-            """
-          }
-        }
-      }
+          steps {
+              sh '''
+                  docker buildx create --use --name multiarch-builder 2>/dev/null || docker buildx use multiarch-builder
 
-      stage("Tag image") {
-        when {
-          expression {
-            return env.BRANCH_NAME == 'main'
+                  docker buildx inspect --bootstrap
+              '''
           }
-        }
-        steps {
-          script {
-            sh "docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
-            sh 'docker tag spring-boot-ci-jenkins shreyasvh/spring-boot-ci-jenkins:latest'
-
-            sh 'docker images'
-          }
-        }
       }
 
       stage("Docker login") {
         when {
           expression {
-            return env.BRANCH_NAME == 'main'
+            return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
           }
         }
         steps {
@@ -70,18 +54,18 @@ pipeline {
         }
       }
 
-      stage("Docker push") {
+      stage("Build and Push Multi-Arch Image") {
         when {
           expression {
-            return env.BRANCH_NAME == 'main'
+              return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == '2-update-the-ci-steps-to-push-both-arm-and-amd-images'
+            }
           }
-        }
-        steps {
-          script {
-            sh "docker push shreyasvh/spring-boot-ci-jenkins:${env.VERSION}"
-            sh 'docker push shreyasvh/spring-boot-ci-jenkins:latest'
+          steps {
+            sh '''
+               #docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION="${VERSION}" -t "${IMAGE_NAME}:${VERSION}" -t "${IMAGE_NAME}:latest" --push .
+               docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION="${VERSION}" -t "${IMAGE_NAME}:test" --push .
+            '''
           }
         }
       }
-    }
 }
