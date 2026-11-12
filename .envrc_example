@@ -9,7 +9,7 @@ export NGROK_VERSION=
 
 export JENKINS_PORT=
 
-# maven 3.9.16 path
+# maven 3.10.0 path
 export PATH=
 
 # java 26.0.2 path
