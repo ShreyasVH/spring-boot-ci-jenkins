@@ -1,11 +1,11 @@
-FROM --platform=$BUILDPLATFORM maven:3.9.16-eclipse-temurin-26-alpine AS build
+FROM --platform=$BUILDPLATFORM maven:3.10.0-eclipse-temurin-27-alpine AS build
 WORKDIR /app/
 COPY . .
 RUN mvn clean compile -DskipTests=true package
 
 # ----------------------------------------------------------------
 
-FROM eclipse-temurin:26.0.2_10-jre-jammy
+FROM eclipse-temurin:27-jre-alpine
 
 WORKDIR /app/
 ARG NAME=demo
