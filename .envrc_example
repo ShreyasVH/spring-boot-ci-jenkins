@@ -12,6 +12,6 @@ export JENKINS_PORT=
 # maven 3.10.0 path
 export PATH=
 
-# java 26.0.2 path
+# java 27 path
 export PATH=
 export JAVA_HOME=
